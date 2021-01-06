@@ -1,17 +1,14 @@
 const app = require('express')();
-var favicon = require('serve-favicon');
-
+const favicon = require('serve-favicon');
 const server = require('http').createServer(app);
 const nocache = require('nocache');
+
+const settings = require('./settings.json');
+
 const ShitpostaDB = require('./shitpostaDB');
-const shitDB = new ShitpostaDB('./db/shit.db', "/shitpost/")
+const shitDB = new ShitpostaDB('./db/shit.db', settings.folder);
 
-console.log(shitDB.shitFolder)
 require('path');
-
-async function selectShit() {
-    return Math.floor(Math.random() * shitDB.length);
-}
 
 app.set('trust proxy', true);
 app.set('etag', false);
@@ -21,24 +18,21 @@ app.use(favicon(__dirname + '/shit.ico'));
 
 app.use('/:id', async function (req, res, next) {
     nocache();
-    console.log("prout", req.params.id)
-    res.sendFile(shitDB.shitFolder + await shitDB.getFileName(req.params.id).catch(err => console.error(err)),
+    var trash = await shitDB.getFileName(req.params.id).catch(() => {
+        next()
+    });
+    res.sendFile(shitDB.shitFolder + trash,
         { root: __dirname })
 });
 
-
-
 app.use('/', async function (req, res) {
-    res.redirect("/" + await selectShit());
-    //console.log(shitpost.id);
-    //res.redirect("/" + toString(shitpost.id));
-    //res.sendFile(shitDB.shitFolder + shitpost.name, { root: __dirname })
+    res.redirect("/" + (await shitDB.getRandomFile()).id);
 });
 
 app.use('*', async function (req, res) {
     res.send("Error uwu")
 });
 
-// Petit rappel, le settings.json est à configurer (:
-server.listen(80, "0.0.0.0");
-console.log("Weebserver running");
+server.listen(settings.port, settings.address, () => {
+    console.log(`Serving Trash on ${settings.address}:${settings.port}`)
+});
