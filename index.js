@@ -21,6 +21,10 @@ app.use('*', async function (req, res, next) {
     else return res.send("Still bowoting, pwease wait")
 })
 
+app.use('/infinity', async function (req, res, next) {
+    res.send(`<!DOCTYPE html><html lang="en"><head><title>"hit F5"</title></head><meta charset="utf-8"><iframe src="/?uwu=${(await shitDB.getRandomFile()).id + Math.random().toString(36).substring(7)}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">Your browser doesn't support iframes :'(</iframe></html>`)
+})
+
 app.use('/:id', async function (req, res, next) {
     nocache();
     var trash = await shitDB.getFileName(req.params.id).catch(() => {
