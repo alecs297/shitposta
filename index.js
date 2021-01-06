@@ -3,31 +3,19 @@ const server = require('http').createServer(app);
 const fs = require('fs');
 const folder = "/shitpost/";
 const nocache = require('nocache');
-console.log(folder)
+const ShitpostaDB = require('./shitpostaDB');
+const shitDB = new ShitpostaDB('./db/shit.db', "/shitpost/")
+
+console.log(shitDB.shitFolder)
 require('path');
 
 app.set('trust proxy', true);
 app.set('etag', false);
 app.disable('view cache');
 
-function generateTrashList() {
-    var list = []
-    fs.readdirSync(__dirname + folder).forEach(file => {
-        list.push(file)
-    });
-    return list
-}
-
-trashList = generateTrashList()
-
-function sortTrash(trash) {
-    a = trash[Math.floor(Math.random() * trash.length)]
-    console.log(a)
-    return a;
-}
 app.use('/', async function (req, res, next) {
     nocache();
-    res.sendFile(folder + sortTrash(trashList), { root: __dirname })
+    res.sendFile(shitDB.shitFolder + shitDB.getRandomFile().name, { root: __dirname })
 });
 
 app.use('*', async function (req, res) {
