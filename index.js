@@ -35,4 +35,4 @@ app.use('*', async function (req, res) {
 });
 
 // Petit rappel, le settings.json est à configurer (:
-server.listen(80, console.log("Weebserver running"));
+server.listen(80, "0.0.0.0", console.log("Weebserver running"));
