@@ -1,10 +1,7 @@
 const app = require('express')();
-var router = require('express').Router();
 var favicon = require('serve-favicon');
 
 const server = require('http').createServer(app);
-const fs = require('fs');
-const folder = "/shitpost/";
 const nocache = require('nocache');
 const ShitpostaDB = require('./shitpostaDB');
 const shitDB = new ShitpostaDB('./db/shit.db', "/shitpost/")
