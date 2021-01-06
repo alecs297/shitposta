@@ -20,7 +20,10 @@ class ShitpostaDB {
             this.db.pragma("synchronous = 1");
             this.db.pragma("journal_mode = wal");
         }
-        this.length = this.db.prepare("SELECT count(*) FROM files").get();
+    }
+
+    get length() {
+        return this.db.prepare("SELECT count(*) FROM files").get()['count(*)']
     }
 
     async populateDB() {
@@ -29,13 +32,15 @@ class ShitpostaDB {
             addFile.run(id, file);
             //console.log(id, file);
         });
+        console.log("dataBase populated");
     }
 
-    getFileName(id) {
+    async getFileName(id) {
+        console.log("looking for", id)
         return this.db.prepare("SELECT name FROM files WHERE id = ?").get(id).name;
     }
 
-    getRandomFile() {
+    async getRandomFile() {
         return this.db.prepare("SELECT id,name FROM files ORDER BY RANDOM() LIMIT 1").get();
     }
 

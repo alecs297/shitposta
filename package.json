@@ -6,7 +6,8 @@
   "dependencies": {
     "better-sqlite3": "^7.1.2",
     "express": "^4.17.1",
-    "nocache": "^2.1.0"
+    "nocache": "^2.1.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {},
   "scripts": {
