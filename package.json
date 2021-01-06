@@ -1,0 +1,25 @@
+{
+  "name": "shitposta",
+  "version": "1.0.0",
+  "description": "a trash bin in a cloud",
+  "main": "index.js",
+  "dependencies": {
+    "better-sqlite3": "^7.1.2",
+    "express": "^4.17.1",
+    "nocache": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alecs297/shitposta.git"
+  },
+  "author": "alecs297 & Obito1903",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alecs297/shitposta/issues"
+  },
+  "homepage": "https://github.com/alecs297/shitposta#readme"
+}
