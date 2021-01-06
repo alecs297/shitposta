@@ -16,6 +16,11 @@ app.disable('view cache');
 
 app.use(favicon(__dirname + '/shit.ico'));
 
+app.use('*', async function (req, res, next) {
+    if (shitDB.ready) return next();
+    else return res.send("Still bowoting, pwease wait")
+})
+
 app.use('/:id', async function (req, res, next) {
     nocache();
     var trash = await shitDB.getFileName(req.params.id).catch(() => {
