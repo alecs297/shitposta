@@ -1,5 +1,6 @@
 const app = require('express')();
 const favicon = require('serve-favicon');
+const fs = require('fs');
 const server = require('http').createServer(app);
 const nocache = require('nocache');
 
@@ -31,6 +32,7 @@ app.use('/:id', async function (req, res, next) {
     var trash = await shitDB.getFileName(req.params.id).catch(() => {
         next()
     });
+    if (!fs.existsSync(__dirname + shitDB.shitFolder + trash)) res.send("This meme sucked, RIP")
     res.sendFile(shitDB.shitFolder + trash,
         { root: __dirname })
 });
