@@ -1,2 +1,2 @@
 # shitposta
-a trash bin in a cloud
+a trash bin in the cloud
