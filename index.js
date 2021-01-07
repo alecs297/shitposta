@@ -12,7 +12,7 @@ const shitDB = new ShitpostaDB('./db/shit.db', settings.folder);
 
 require('path');
 
-const server = settings.ssl.enabled?http.createServer(app):https.createServer({key: fs.readFileSync(settings.ssl.key, 'utf8'), cert: fs.readFileSync(settings.ssl.cert, 'utf8')}, app)
+const server = settings.ssl.enabled?https.createServer({key: fs.readFileSync(settings.ssl.key, 'utf8'), cert: fs.readFileSync(settings.ssl.cert, 'utf8')}, app):http.createServer(app)
 
 app.set('trust proxy', true);
 app.set('etag', false);
