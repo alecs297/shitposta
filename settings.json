@@ -1,5 +1,10 @@
 {
     "folder": "/shitpost/",
     "address": "localhost",
-    "port": 8080
+    "port": 8080,
+    "ssl": {
+        "enabled": false,
+        "key": "path",
+        "cert": "path"
+    }
 }

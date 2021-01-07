@@ -1,7 +1,8 @@
 const app = require('express')();
 const favicon = require('serve-favicon');
 const fs = require('fs');
-const server = require('http').createServer(app);
+const http = require('http');
+const https = require('https');
 const nocache = require('nocache');
 
 const settings = require('./settings.json');
@@ -10,6 +11,8 @@ const ShitpostaDB = require('./shitpostaDB');
 const shitDB = new ShitpostaDB('./db/shit.db', settings.folder);
 
 require('path');
+
+const server = settings.ssl.enabled?http.createServer(app):https.createServer({key: fs.readFileSync(settings.ssl.key, 'utf8'), cert: fs.readFileSync(settings.ssl.cert, 'utf8')}, app)
 
 app.set('trust proxy', true);
 app.set('etag', false);
