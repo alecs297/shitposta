@@ -16,18 +16,23 @@ const server = settings.ssl.enabled?https.createServer({key: fs.readFileSync(set
 
 app.set('trust proxy', true);
 app.set('etag', false);
+app.set('view engine', 'ejs');
 app.disable('view cache');
 
-app.use(favicon(__dirname + '/shit.ico'));
+app.use(favicon(__dirname + '/icon.png'));
 
 app.use('*', async function (req, res, next) {
+    if (settings.ssl.enabled && req.protocol !== "https") return res.redirect('https://' + req.headers.host + req.url);
     if (shitDB.ready) return next();
     else return res.send("Still bowoting, pwease wait")
 })
 
 app.use('/infinity', async function (req, res, next) {
-    const id = (await shitDB.getRandomFile()).id
-    res.send(`<!DOCTYPE html><html lang="en"><head><title>"${id}"</title></head><meta charset="utf-8"><iframe src="/${id}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">Your browser doesn't support iframes :'(</iframe></html>`)
+    res.render('pages/random.ejs', {id: (await shitDB.getRandomFile()).id, autoplay: false})
+})
+
+app.use('/auto', async function (req, res, next) {
+    res.render('pages/random.ejs', {id: (await shitDB.getRandomFile()).id, autoplay: true})
 })
 
 app.use('/:id', async function (req, res, next) {
@@ -35,13 +40,13 @@ app.use('/:id', async function (req, res, next) {
     var trash = await shitDB.getFileName(req.params.id).catch(() => {
         next()
     });
-    if (!fs.existsSync(__dirname + shitDB.shitFolder + trash)) res.send("This meme sucked, RIP")
+    if (!fs.existsSync(__dirname + shitDB.shitFolder + trash)) return res.send("This meme sucked, RIP")
     res.sendFile(shitDB.shitFolder + trash,
         { root: __dirname })
 });
 
 app.use('/', async function (req, res) {
-    res.redirect("/" + (await shitDB.getRandomFile()).id);
+    res.render('pages/index.ejs')
 });
 
 app.use('*', async function (req, res) {

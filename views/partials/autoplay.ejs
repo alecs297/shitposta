@@ -1,0 +1,14 @@
+<script>
+    window.onload = function() {
+        var video = document.body.children[0].contentWindow.document.body.children[0];
+        if (!video || video.tagName !== "VIDEO") {
+            console.log("Not a video, reloading.");
+            location.reload();
+        }
+        video.onended = function() {
+            setTimeout(function(){
+                console.log("Video ended, loading another one."); location.reload();
+            }, 1000);
+        };
+    }
+</script>
