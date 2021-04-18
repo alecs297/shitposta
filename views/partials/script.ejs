@@ -1,0 +1,33 @@
+<script>
+    window.onload = function() {
+        let media = document.getElementById("media").contentWindow.document.body.children[0];
+        <% if (!options.privateStats) { %>
+        <%- include('./firsttime.ejs'); %>
+        <% }%>
+
+        <% if (options.filter) { %>
+        <%- include('./filter.ejs', {filter: options.filter}); %>
+        <% }%>
+
+        <% if (options.auto) { %>
+        <%- include('./autoplay.ejs'); %>
+        <% }%>
+
+        <% if (options.copy) { %>
+        <%- include('./copy.ejs'); %>
+        <% }%>
+
+
+        document.getElementById('media').contentWindow.document.onkeypress = document.onkeypress = function (e) {
+            e = e || window.event;
+            if (e.keyCode === 99) {
+                let d = document.getElementById("settings");
+                if (d.hidden && media.pause) media.pause();
+                d.hidden = !d.hidden;
+            }
+        };
+
+    }
+</script>
+
+<%- include('../partials/settings.ejs', {options: options}); %>

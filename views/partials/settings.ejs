@@ -1,0 +1,49 @@
+<script>
+
+    function copy(el) {
+        if (navigator.permissions) {
+            navigator.permissions.query({name: "clipboard-write"}).then(result => {
+                if (result.state == "granted" || result.state == "prompt") {
+                    navigator.clipboard.writeText(document.getElementById(el).value);
+                }
+            });
+        } else {
+            navigator.clipboard.writeText(document.getElementById(el).value);
+        }
+    }
+
+    function update() {
+        let a = document.getElementById("auto").checked;
+        let f = document.getElementById("filter").value;
+        let c = document.getElementById("copy").checked;
+        let url = "<%= options.url %>view?"
+        let params = [];
+        if (a) params.push({key: "auto", value: 1});
+        if (f && f !== "any") params.push({key: "filter", value: f});
+        if (c) params.push({key: "copy", value: c});
+
+        window.history.pushState('stateChange', document.title, url + params.map((e) => `${e.key}=${e.value}`).join("&"));
+        
+    }
+
+</script>
+
+<div id="settings" style="position:fixed; top:0; left:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:5; background-color: black; color:white; text-align: center; vertical-align: middle;" hidden>
+    <h1>Content #<%= options.id%></h1>
+    <h1>You have viewed <%= options.privateStats %> "things" </h1>
+
+    <input type="checkbox" onclick="update()" id="auto" <% if (options.auto) { %> <%= "checked"%><% } %>><label> Autoplay</label>
+    <input type="checkbox" onclick="update()" id="copy" <% if (options.copy) { %> <%= "checked"%><% } %>><label> Auto copy link mode (experimental, use chrome)</label><br>
+    <label>Filter by type </label><select onchange="update()" id="filter" value="<%= options.filter%>">
+        <option value="<%= options.filter ? options.filter : 'any'%>">current (<%= options.filter ? options.filter : "any"%>)</option>
+        <option value="any">any</option>
+        <option value="img">images</option>
+        <option value="video">videos</option>
+        <option value="audio">audio</option>
+    </select><br><br>
+    <label>Share this video </label><input type="text" id="current" value="<%= options.url + options.id %>" disabled><button onclick="copy('current');">Copy</button><br>
+    <label>Share last video </label><input type="text" id="previous" value="<%= options.url + options.prevId %>" disabled><button onclick="copy('previous');">Copy</button><br><br>
+    Star this project for free on <a href="https://github.com/alecs297/shitposta" target="_blank">GitHub</a> (would be cool)<br><br>
+    <label>Refresh for new content </label><button onclick="window.location.reload();">NOW !</button>
+</div>
+
