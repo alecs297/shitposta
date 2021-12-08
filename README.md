@@ -1,6 +1,6 @@
 # shitposta (the original one)
 
-Node.js wevserver serving as a semi-private trash bin in the cloud.
+Node.js wenserver serving as a semi-private trash bin in the cloud.
 
 Basically providing an easy way for serving random files from a folder: images, videos, mostly memes.
 
