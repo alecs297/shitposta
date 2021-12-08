@@ -1,4 +1,10 @@
 # shitposta (the original one)
 
-semi-private trash bin in the cloud
-basically providing an easy way for serving random nonsense from a folder, mostly memes
+Node.js wevserver serving as a semi-private trash bin in the cloud.
+
+Basically providing an easy way for serving random files from a folder: images, videos, mostly memes.
+
+Pros: auto indexing, autoplay, key shortcuts & filters.
+Cons: highly rushed and not safari compatible
+
+> disclaimer, this is not a serious project, only a small tool 
